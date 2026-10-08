@@ -44,7 +44,7 @@ export default function InstitutionMap({
 
   const refresh = () => {
     for (const { inst, el } of markersRef.current) {
-      const show = zoomRef.current >= TIER_MIN_ZOOM[inst.tier] && typesRef.current.has(inst.type);
+      const show = zoomRef.current >= (TIER_MIN_ZOOM[inst.tier] ?? 0) && typesRef.current.has(inst.type);
       el.style.display = show ? "" : "none";
     }
   };
@@ -69,7 +69,7 @@ export default function InstitutionMap({
         maxZoom: 16,
         attributionControl: { compact: true },
       });
-      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+      map!.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
       // Sort so prominent institutions render on top
       const sorted = [...institutions].sort((a, b) => b.tier - a.tier);
       markersRef.current = sorted.map((inst) => {
